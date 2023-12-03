@@ -53,6 +53,7 @@ function ClientRemoteProperty.new<T>(remoteFunction: RemoteFunction): ClientRemo
 		_rawProperty = Property.new(),
 		_remoteFunction = remoteFunction,
 		_valueSetPromises = {},
+		_tableValueGuiIds = {},
 	}, ClientRemoteProperty)
 
 	self:_init()
@@ -184,10 +185,11 @@ end
 	@tag Advanced
 	@return Promise
 
-	Works the same as [ClientRemoteProperty:set], but returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved once
-	the server has set the value for the client to `value`. 
+	Works the same as [ClientRemoteProperty:set], but returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved **when**
+	the server has set the value for the client to `value`, or else rejects with a `nil value`. Additionally, the returned promise 
+	resolves with the value (that was set).
 	
-	:::note
+	:::note Precaution
 	Calling this method for the same exact value **again** before the old promise has settled 
 	will simply result in the old promise to return. This is to avoid sending unnecessary
 	requests to the server.
@@ -199,6 +201,21 @@ end
 	print(promiseA:getStatus()) --> "Started"
 	print(promiseA == promiseB) --> true
 	```
+
+	Additionally, this method performs a shallow check (`self:get() == value`) before informing the server to actually 
+	set the value. This is an attempt to avoid sending unnecessary requests to the server.
+
+	```lua
+	-- Example 1:
+	local thisValue = {1,2,3}
+	clientRemoteProperty:setPromise(thisValue):expect() -- Assuming this is successful....
+	warn(clientRemoteProperty:setPromise(thisValue):expect()) -- Does not inform the server, immediately returns a resolved promise
+
+	-- Example 2:
+	local thisValue = "123"
+	clientRemoteProperty:setPromise(thisValue):expect() -- Assuming this is successful....
+	warn(clientRemoteProperty:setPromise(thisValue):expect()) -- Does not inform the server to set the value to 'thisValue' (redundant!)
+	```
 	:::
 
 	:::warning Possible Promise rejection
@@ -209,9 +226,9 @@ end
 
 	```lua
 	-- Client
-	clientRemoteProperty:setPromise(10):andThen(function()
+	clientRemoteProperty:setPromise(10):andThen(function(newValue)
 		-- Success!
-		print(clientRemoteProperty:get()) --> 10
+		print(newValue) --> 10
 	end):catch(function()
 		-- Server rejected the request
 	end)
@@ -219,11 +236,16 @@ end
 ]=]
 
 function ClientRemoteProperty.__index:setPromise(value: any)
-	if self._valueSetPromises[value] then
+	if self._valueSetPromises[value] ~= nil then
 		return self._valueSetPromises[value]
 	end
 
+	if self:get() == value then
+		return Promise.resolve(self:get())
+	end
+
 	local valueGuiId = HttpService:GenerateGUID()
+
 	local rawPropertyOnUpdateConnection
 	local valueSetPromise = self._trove:AddPromise(Promise.new(function(resolve, reject)
 		rawPropertyOnUpdateConnection = self._rawProperty.onUpdate:Connect(function(newValue)
@@ -232,7 +254,7 @@ function ClientRemoteProperty.__index:setPromise(value: any)
 				-- which means the client informed the server to set a value for the
 				-- client, and the server accepted this request, thus from this info,
 				-- we know this. Resolve pending value set promises
-				resolve()
+				resolve(newValue.value)
 			end
 		end)
 
@@ -241,6 +263,7 @@ function ClientRemoteProperty.__index:setPromise(value: any)
 				value = value,
 				valueGuiId = valueGuiId,
 			}))
+
 		if not wasSuccessful then
 			reject(nil)
 		end
@@ -328,7 +351,7 @@ export type ClientRemoteProperty<T> = typeof(setmetatable(
 		_rawProperty: Property.Property<T>,
 		_trove: sharedTypes.Trove,
 		_remoteFunction: RemoteFunction,
-		_valueSetPromises: {any},
+		_valueSetPromises: { any },
 	},
 	ClientRemoteProperty
 ))
