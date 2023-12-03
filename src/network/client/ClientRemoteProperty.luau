@@ -53,7 +53,6 @@ function ClientRemoteProperty.new<T>(remoteFunction: RemoteFunction): ClientRemo
 		_rawProperty = Property.new(),
 		_remoteFunction = remoteFunction,
 		_valueSetPromises = {},
-		_tableValueGuiIds = {},
 	}, ClientRemoteProperty)
 
 	self:_init()
