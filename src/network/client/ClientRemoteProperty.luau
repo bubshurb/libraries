@@ -221,7 +221,6 @@ end
 	This promise can also be rejected **with a nil value** if the server declines the client's request of setting the value for the client
 	in the remote property. This behavior will be seen by default, if the remote property  has  no `clientSet`
 	middleware - see [DefaultRemotePropertyMiddleware] and [RemotePropertyMiddleware] for more info.
-	:::
 
 	```lua
 	-- Client
@@ -232,6 +231,7 @@ end
 		-- Server rejected the request
 	end)
 	```
+	:::
 ]=]
 
 function ClientRemoteProperty.__index:setPromise(value: any)
