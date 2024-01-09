@@ -8,8 +8,10 @@ local Promise = require(script.Parent.Promise)
 
 local instanceAttributeUtil = {}
 
+type Observer = (newAttributeValue: any, oldAttributeValue: any) -> ()
+
 --[=[
-	Returns an array of all descendants in `instanceTree` which have the
+	Returns a read only array of all descendants in `instanceTree` which have the
 	`desiredAttribute` attribute.
 ]=]
 
@@ -22,7 +24,38 @@ function instanceAttributeUtil.all(instanceTree: Instance, desiredAttribute: str
 		end
 	end
 
-	return captured
+	return table.freeze(captured)
+end
+
+--[=[
+	Works similar to [instanceAttributeUtil.observe], but observes an dictionary of 
+	attributes instead of a single attribute.
+
+	```lua
+	instanceAttributeUtil.observeMany(workspace, workspace:GetAttributes(), function(newAttributes, oldAttributes)
+		...
+	end)
+	```
+]=]
+
+function instanceAttributeUtil.observeMany(
+	instance: Instance,
+	attributesToObserve: { [string]: any },
+	observer: Observer
+)
+	local attributesToObserveNew = table.clone(attributesToObserve)
+	local attributesToObserveOld = table.clone(attributesToObserve)
+	task.spawn(observer, attributesToObserveNew, nil)
+
+	return instance.AttributeChanged:Connect(function(attribute, newAttributeValue)
+		if attributesToObserve[attribute] == nil then
+			return
+		end
+
+		attributesToObserveNew[attribute] = newAttributeValue
+		task.spawn(observer, attributesToObserveNew, attributesToObserveOld)
+		attributesToObserveOld[attribute] = newAttributeValue
+	end)
 end
 
 --[=[
@@ -72,12 +105,12 @@ function instanceAttributeUtil.removed(
 end
 
 --[=[
-	Observes the value of attribute `desiredAttribute` in `instance`, so `callback` is called
+	Observes the value of attribute `desiredAttribute` in `instance`, so `observer` is called
 	every time the attribute updates.
 
 	```lua
-	instanceAttributeUtil.observe(workspace, "Some", function(attributeValue)
-		print(instance)
+	instanceAttributeUtil.observe(workspace, "SomeAttribute", function(newValue, oldValue)
+		...
 	end)
 	```
 ]=]
@@ -85,15 +118,16 @@ end
 function instanceAttributeUtil.observe(
 	instance: Instance,
 	desiredAttribute: string,
-	callback: (attributeValue: any) -> ()
+	observer: Observer
 )
-	local attributeValue = instance:GetAttribute(desiredAttribute)
-	if attributeValue ~= nil then
-		task.spawn(callback, attributeValue)
+	local oldAttributeValue = instance:GetAttribute(desiredAttribute)
+	if oldAttributeValue ~= nil then
+		task.spawn(observer, oldAttributeValue)
 	end
 
 	return instance:GetAttributeChangedSignal(desiredAttribute):Connect(function()
-		callback(instance:GetAttribute(desiredAttribute))
+		observer(instance:GetAttribute(desiredAttribute), oldAttributeValue)
+		oldAttributeValue = instance:GetAttribute(desiredAttribute)
 	end)
 end
 
