@@ -174,7 +174,7 @@ end
 ]=]
 
 function Property.__index:observe(callback: (newValue: any, oldValue: any) -> ())
-	task.spawn(function()
+	task.defer(function()
 		local initialValue = self:get()
 		if initialValue ~= nil then
 			callback(initialValue, nil)
