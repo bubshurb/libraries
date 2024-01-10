@@ -8,8 +8,8 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [Hover](https://bubshurb.github.io/libraries/api/Hover) | `Hover = "bubshurb/hover@1.1.0` | `shared` |
 | [ContentProviderQueue](https://bubshurb.github.io/libraries/api/ContentProviderQueue) | `ContentProviderQueue = "bubshurb/contentproviderqueue@1.1.0"` | `shared` |
 | [CustomAnimator](https://bubshurb.github.io/libraries/api/CustomAnimator) | `CustomAnimator = "bubshurb/customanimator@1.2.0"` | `shared` |
-| [Property](https://bubshurb.github.io/libraries/api/Property) | `Property = "bubshurb/property@1.2.0"` | `shared` |
-| [network](https://bubshurb.github.io/libraries/api/network) | `network = "bubshurb/network@1.5.1"` | `shared` |
+| [Property](https://bubshurb.github.io/libraries/api/Property) | `Property = "bubshurb/property@2.0.0"` | `shared` |
+| [network](https://bubshurb.github.io/libraries/api/network) | `network = "bubshurb/network@1.6.0"` | `shared` |
 | [windLines](https://bubshurb.github.io/libraries/api/windLines) | `windLines = "bubshurb/windlines@1.0.0"` | `shared` |
 | [matrixUtil](https://bubshurb.github.io/libraries/api/matrixUtil) | `matrixUtil = "bubshurb/matrixutil@1.0.0"` | `shared` |
 | [instanceUtil](https://bubshurb.github.io/libraries/api/InstanceUtil) | `instanceUtil = "bubshurb/instanceutil@1.0.0"` | `shared` |
@@ -34,14 +34,14 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [badgeServiceUtil](https://bubshurb.github.io/libraries/api/badgeServiceUtil) | `badgeServiceUtil = "bubshurb/badgeserviceutil@1.0.0"` | `shared` |
 | [colorUtil](https://bubshurb.github.io/libraries/api/colorUtil) | `colorUtil = "bubshurb/colorutil@1.0.0"` | `shared` |
 | [serializerUtil](https://bubshurb.github.io/libraries/api/serializerUtil) | `serializerUtil = "bubshurb/serializerutil@1.0.0"` | `shared` |
-| [instanceTrackerUtil](https://bubshurb.github.io/libraries/api/instanceTrackerUtil) | `instanceTrackerUtil = "bubshurb/instancetrackerutil@1.0.0"` | `shared` |
+| [instanceTrackerUtil](https://bubshurb.github.io/libraries/api/instanceTrackerUtil) | `instanceTrackerUtil = "bubshurb/instancetrackerutil@1.1.0"` | `shared` |
 | [instanceAttributeUtil](https://bubshurb.github.io/libraries/api/instanceAttributeUtil) | `instanceAttributeUtil = "bubshurb/instanceattributeutil@1.1.0"` | `shared` |
 | [instanceTagUtil](https://bubshurb.github.io/libraries/api/instanceTagUtil) | `instanceTagUtil = "bubshurb/instancetagutil@1.0.0"` | `shared` |
 | [rbxScriptSignalUtil](https://bubshurb.github.io/libraries/api/rbxScriptSignalUtil) | `rbxScriptSignalUtil = "bubshurb/rbxscriptsignalutil@1.0.0"` | `shared` |
 | [numberUnitUtil](https://bubshurb.github.io/libraries/api/numberUnitUtil) | `numberUnitUtil = "bubshurb/numberunitutil@1.0.0"` | `shared` |
 | [playersUtil](https://bubshurb.github.io/libraries/api/playersUtil) | `playersUtil = "bubshurb/playersutil@1.1.0"` | `shared` |
 | [dateUtil](https://bubshurb.github.io/libraries/api/dateUtil) | `dateUtil = "bubshurb/dateUtil@1.0.0"` | `shared` |
-| [rain](https://bubshurb.github.io/libraries/api/rain) | `rain = "bubshurb/rain@1.0.0"` | `shared` |
+| [rain](https://bubshurb.github.io/libraries/api/rain) | `rain = "bubshurb/rain@2.0.0"` | `shared` |
 | [waitForUtil](https://bubshurb.github.io/libraries/api/waitForUtil) | `waitForUtil = "bubshurb/waitforutil@1.0.0"` | `shared` |
 
 ## License notice
