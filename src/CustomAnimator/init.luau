@@ -4,9 +4,9 @@
 	A simple class for working with animations.
 	
 	```lua
-	local playerHumanoidCustomAnimator = CustomAnimator.new(humanoid.Animator)
-	local animationTrack = playerHumanoidCustomAnimator:loadAnimation(animation)
-	animationTrack:Play()
+	local playerHumanoidCustomAnimator = CustomAnimator.new(humanoidAnimator)
+	local track = playerHumanoidCustomAnimator:loadAnimation(animation)
+	track:Play()
 	```
 ]=]
 
@@ -55,16 +55,16 @@ function CustomAnimator.__index:animationTrack(animation: Animation): AnimationT
 end
 
 --[=[ 
-	Promisified version of [CustomAnimator:animationTrack], see [Promises](https://eryn.io/roblox-lua-promise/) for more info.
+	Returns a promise which is resolved once the given animation is loaded via [CustomAnimator:loadAnimation].
 ]=]
 
-function CustomAnimator.__index:animationTrackPromise(animation: Animation)
+function CustomAnimator.__index:onAnimationLoadPromise(animation: Animation)
 	return Promise.new(function(resolve)
-		while self._loadedAnimationTracks[animation] == nil do
+		while not self._loadedAnimationTracks[animation] do
 			self._onAnimationLoaded:Wait()
 		end
 
-		resolve(self._loadedAnimationTracks[animation])
+		resolve(animation)
 	end)
 end
 
@@ -192,13 +192,6 @@ function CustomAnimator.__index:destroy()
 	setmetatable(self, nil)
 end
 
-export type CustomAnimator = typeof(setmetatable(
-	{} :: {
-		_animator: Animator | AnimationController,
-		_loadedAnimationTracks: { [Animation]: AnimationTrack },
-		_onAnimationLoaded: typeof(Signal.new()),
-	},
-	CustomAnimator
-))
+export type CustomAnimator = typeof(CustomAnimator.new(Instance.new("Animator")))
 
 return table.freeze(CustomAnimator)

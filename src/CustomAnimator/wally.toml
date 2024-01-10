@@ -3,7 +3,7 @@ name = "bubshurb/customanimator"
 description = "A simple class for working with animations."
 authors = ["bubshurb"]
 license = "MIT"
-version = "1.1.0"
+version = "1.2.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
