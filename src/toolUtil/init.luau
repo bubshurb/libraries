@@ -5,7 +5,7 @@
 ]=]
 
 local playersUtil = require(script.Parent.playersUtil)
-local playerEventsUtil = require(script.Parent.playersEventUtil)
+local playerEventsUtil = require(script.Parent.playerEventsUtil)
 
 local toolUtil = {}
 
