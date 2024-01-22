@@ -44,29 +44,4 @@ function coreGuiUtil.setCore(coreGuiName: string, ...: any)
 	end)
 end
 
---[=[
-    Returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved once [StarterGui:SetCoreGuiEnabled](https://create.roblox.com/docs/reference/engine/classes/StarterGui#SetCoreGuiEnabled) has successfully executed.
-
-    ```lua
-    coreGuiUtil.setCoreGuiEnabled(Enum.CoreGuiType.Health, false):andThen(function()
-        print("Successfully disabled the Health core gui")
-    end)    
-    ```
-
-    @return Promise<>
-]=]
-
-function coreGuiUtil.setCoreGuiEnabled(gui: Enum.CoreGuiType, enabled: boolean)
-	return Promise.new(function(resolve)
-		-- Quite a hacky way, but the only way currently. Will refactor this
-		-- once Roblox solves race condition issues related to this.
-		while not StarterGui:GetCoreGuiEnabled(gui) do
-			task.wait()
-		end
-
-		StarterGui:SetCoreGuiEnabled(gui, enabled)
-		resolve()
-	end)
-end
-
 return table.freeze(coreGuiUtil)

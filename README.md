@@ -16,7 +16,7 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [numberUtil](https://bubshurb.github.io/libraries/api/numberUtil) | `numberUtil = "bubshurb/numberutil@1.0.0"` | `shared` |
 | [colorSequenceUtil](https://bubshurb.github.io/libraries/api/colorSequenceUtil) | `colorSequenceUtil = "bubshurb/colorsequenceutil@1.0.0"` | `shared` |
 | [throttleUtil](https://bubshurb.github.io/libraries/api/throttleUtil) | `throttleUtil = "bubshurb/throttleutil@1.0.0"` | `shared` |
-| [coreGuiUtil](https://bubshurb.github.io/libraries/api/coreGuiUtil) | `coreGuiUtil = "bubshurb/coreguiutil@1.0.0"` | `shared` |
+| [coreGuiUtil](https://bubshurb.github.io/libraries/api/coreGuiUtil) | `coreGuiUtil = "bubshurb/coreguiutil@1.1.0"` | `shared` |
 | [schedulerUtil](https://bubshurb.github.io/libraries/api/schedulerUtil) | `schedulerUtil = "bubshurb/schedulerutil@1.0.0"` | `shared` |
 | [playerPolicyInfoUtil](https://bubshurb.github.io/libraries/api/playerPolicyInfoUtil) | `playerPolicyInfoUtil = "bubshurb/playerpolicyinfoutil@1.0.0"` | `shared` |
 | [instanceReplicationUtil](https://bubshurb.github.io/libraries/api/instanceReplicationUtil) | `instanceReplicationUtil = "bubshurb/instancereplicationutil@1.1.0"` | `shared` |
