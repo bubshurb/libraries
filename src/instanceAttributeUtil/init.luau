@@ -47,11 +47,12 @@ function instanceAttributeUtil.observeMany(
 	local attributesToObserveOld = table.clone(attributesToObserve)
 	task.spawn(observer, attributesToObserveNew, nil)
 
-	return instance.AttributeChanged:Connect(function(attribute, newAttributeValue)
+	return instance.AttributeChanged:Connect(function(attribute)
 		if attributesToObserve[attribute] == nil then
 			return
 		end
 
+		local newAttributeValue = instance:GetAttribute(attribute)
 		attributesToObserveNew[attribute] = newAttributeValue
 		task.spawn(observer, attributesToObserveNew, attributesToObserveOld)
 		attributesToObserveOld[attribute] = newAttributeValue
