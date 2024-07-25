@@ -172,9 +172,9 @@ end
 	all initial tools in the player backpack.
 
 	```lua
-	toolUtil.observePlayerBackpackForTools(player, function(newToolEquipped, oldToolEquipped)
+	toolUtil.observePlayerBackpackForTools(player, function(newToolAdded, oldToolAdded)
 	
-	end, function(newToolUnequipped, oldToolUnEquipped)
+	end, function(newToolRemoved, oldToolRemoved)
 	
 	end)
 	```
@@ -237,9 +237,9 @@ end
 	Observes the player's backpack and character for any new tools added or removed.
 
 	```lua
-	toolUtil.observePlayerForToolOwnership(player, function(newToolEquipped, oldToolEquipped)
+	toolUtil.observePlayerForToolOwnership(player, function(newToolOwnershipGranted, oldToolOwnershipGranted)
 	
-	end, function(newToolUnequipped, oldToolUnEquipped)
+	end, function(newToolOwnershipRemoved, oldToolOwnershipRemoved)
 	
 	end)
 	```
