@@ -4,8 +4,8 @@
 	A simple utility module for working with tools.
 ]=]
 
-local playersUtil = require(script.Parent.playersUtil)
 local playerEventsUtil = require(script.Parent.playerEventsUtil)
+local playersUtil = require(script.Parent.playersUtil)
 
 local toolUtil = {}
 
@@ -266,7 +266,7 @@ function toolUtil.observePlayerForToolOwnership(
 		end
 
 		local currentEquippedTool = if player.Character
-			then player.Character:FindFirstChildWhichIsA("Humanoid")
+			then player.Character:FindFirstChildWhichIsA("Tool")
 			else nil
 		if currentEquippedTool then
 			task.spawn(observerForToolOwnershipGranted, currentEquippedTool, nil)
@@ -285,8 +285,14 @@ function toolUtil.observePlayerForToolOwnership(
 		table.insert(
 			connections,
 			player.Backpack.ChildRemoved:Connect(function(toolRemoved)
-				task.spawn(observerForToolOwnershipRemoved, toolRemoved, lastToolOwnershipRemoved)
-				lastToolOwnershipRemoved = toolRemoved
+				if toolRemoved.Parent ~= player.Character then
+					task.spawn(
+						observerForToolOwnershipRemoved,
+						toolRemoved,
+						lastToolOwnershipRemoved
+					)
+					lastToolOwnershipRemoved = toolRemoved
+				end
 			end)
 		)
 	end
@@ -296,7 +302,7 @@ function toolUtil.observePlayerForToolOwnership(
 			table.insert(
 				connections,
 				newPlayerCharacter.ChildRemoved:Connect(function(childRemoved)
-					if not childRemoved:IsA("Tool") then
+					if not childRemoved:IsA("Tool") or childRemoved.Parent == player.Backpack then
 						return
 					end
 
