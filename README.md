@@ -28,7 +28,7 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [debugLoggerUtil](https://bubshurb.github.io/libraries/api/debugLoggerUtil) | `debugLoggerUtil = "bubshurb/debugLoggerUtil@1.0.0"` | `shared` |
 | [stringUtil](https://bubshurb.github.io/libraries/api/stringUtil) | `stringUtil = "bubshurb/stringUtil@1.0.0"` | `shared` |
 | [positionUtil](https://bubshurb.github.io/libraries/api/positionUtil) | `positionUtil = "bubshurb/positionUtil@1.0.0"` | `shared` |
-| [marketPlaceServiceUtil](https://bubshurb.github.io/libraries/api/marketPlaceServiceUtil) | `marketPlaceServiceUtil = "bubshurb/marketplaceserviceutil@1.0.0` | `shared` |
+| [marketPlaceServiceUtil](https://bubshurb.github.io/libraries/api/marketPlaceServiceUtil) | `marketPlaceServiceUtil = "bubshurb/marketplaceserviceutil@1.1.0` | `shared` |
 | [toolUtil](https://bubshurb.github.io/libraries/api/toolUtil) | `toolUtil = "bubshurb/tooltil@1.2.2` | `shared` |
 | [soundUtil](https://bubshurb.github.io/libraries/api/soundUtil) | `soundUtil = "bubshurb/soundutil@1.0.0"` | `shared` |
 | [badgeServiceUtil](https://bubshurb.github.io/libraries/api/badgeServiceUtil) | `badgeServiceUtil = "bubshurb/badgeserviceutil@1.0.0"` | `shared` |

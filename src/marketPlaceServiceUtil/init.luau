@@ -109,6 +109,101 @@ function marketPlaceServiceUtil.playerOwnsBundle(player: Player, bundleId: numbe
 	return wrapBooleanResponseMethod(MarketplaceService.PlayerOwnsBundle, player, bundleId)
 end
 
+--[=[
+	Returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved with the info
+	of the given subscription id.
+
+	```lua
+	local wasSucessfull, subscriptionInfo = marketPlaceServiceUtil.subscriptionInfoProductAsync(subscriptionId):await()
+
+	if wasSucessfull then
+		print(subscriptionInfo)
+	else
+		print(tostring(subscriptionInfo)) -- Error
+	end
+	```
+
+	@return Promise<SubscriptionInfo>
+]=]
+
+function marketPlaceServiceUtil.subscriptionInfoProductAsync(subscriptionId: string)
+	return Promise.new(function(resolve)
+		resolve(MarketplaceService:GetSubscriptionProductInfoAsync(subscriptionId))
+	end)
+end
+
+--[=[
+	Returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved with the
+	user subscription details.
+
+	```lua
+	local wasSucessfull, userSubscriptionDetails = marketPlaceServiceUtil.GetUserSubscriptionDetailsAsync(player, subscriptionId):await()
+
+	if wasSucessfull then
+		print(userSubscriptionDetails)
+	else
+		print(tostring(userSubscriptionDetails)) -- Error
+	end
+	```
+
+	@return Promise<UserSubscriptionDetails>
+]=]
+
+function marketPlaceServiceUtil.userSubscriptionDetailsAsync(player: Player, subscriptionId: string)
+	return Promise.new(function(resolve)
+		resolve(MarketplaceService:GetUserSubscriptionDetailsAsync(player, subscriptionId))
+	end)
+end
+
+--[=[
+	Returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved with the
+	user subscription payment history.
+
+	```lua
+	local wasSucessfull, userSubscriptionPaymentHistory = marketPlaceServiceUtil.userSubscriptionPaymentHistoryAsync(player, subscriptionId):await()
+
+	if wasSucessfull then
+		print(userSubscriptionPaymentHistory)
+	else
+		print(tostring(userSubscriptionPaymentHistory)) -- Error
+	end
+	```
+
+	@return Promise<UserSubscriptionPaymentHistory>
+]=]
+
+function marketPlaceServiceUtil.userSubscriptionPaymentHistoryAsync(
+	player: Player,
+	subscriptionId: string
+)
+	return Promise.new(function(resolve)
+		resolve(MarketplaceService:GetUserSubscriptionPaymentHistoryAsync(player, subscriptionId))
+	end)
+end
+
+--[=[
+	Returns a [promise](https://eryn.io/roblox-lua-promise/) which is resolved with the
+	user subscription payment history.
+
+	```lua
+	local wasSucessfull, userSubscriptionStatus = marketPlaceServiceUtil.userSubscriptionStatusAsync(player, subscriptionId):await()
+
+	if wasSucessfull then
+		print(userSubscriptionStatus)
+	else
+		print(tostring(userSubscriptionStatus)) -- Error
+	end
+	```
+
+	@return Promise<UserSubscriptionStatus>
+]=]
+
+function marketPlaceServiceUtil.userSubscriptionStatusAsync(player: Player, subscriptionId: string)
+	return Promise.new(function(resolve)
+		resolve(MarketplaceService:GetUserSubscriptionStatusAsync(player, subscriptionId))
+	end)
+end
+
 --[=[ 
     Retrieves the asset product info that belongs to a player of userid `playerUserId`.
 ]=]
