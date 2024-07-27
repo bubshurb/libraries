@@ -259,46 +259,22 @@ function toolUtil.observePlayerForToolOwnership(
 	local lastToolOwnershipGranted
 	local lastToolOwnershipRemoved
 
-	if observerForToolOwnershipGranted then
-		for _, tool in player.Backpack:GetChildren() do
-			task.spawn(observerForToolOwnershipGranted, tool, lastToolOwnershipGranted)
-			lastToolOwnershipGranted = tool
-		end
-
-		local currentEquippedTool = if player.Character
-			then player.Character:FindFirstChildWhichIsA("Tool")
-			else nil
-		if currentEquippedTool then
-			task.spawn(observerForToolOwnershipGranted, currentEquippedTool, nil)
-		end
-
-		table.insert(
-			connections,
-			player.Backpack.ChildAdded:Connect(function(toolAdded)
-				task.spawn(observerForToolOwnershipGranted, toolAdded, lastToolOwnershipGranted)
-				lastToolOwnershipGranted = toolAdded
-			end)
-		)
-	end
-
-	if observerForToolOwnershipRemoved then
-		table.insert(
-			connections,
-			player.Backpack.ChildRemoved:Connect(function(toolRemoved)
-				if toolRemoved.Parent ~= player.Character then
-					task.spawn(
-						observerForToolOwnershipRemoved,
-						toolRemoved,
-						lastToolOwnershipRemoved
-					)
-					lastToolOwnershipRemoved = toolRemoved
-				end
-			end)
-		)
-	end
-
 	playerEventsUtil.usePlayerCharacterAdded(player, function(newPlayerCharacter)
 		if observerForToolOwnershipRemoved then
+			table.insert(
+				connections,
+				player.Backpack.ChildRemoved:Connect(function(toolRemoved)
+					if toolRemoved.Parent ~= player.Character then
+						task.spawn(
+							observerForToolOwnershipRemoved,
+							toolRemoved,
+							lastToolOwnershipRemoved
+						)
+						lastToolOwnershipRemoved = toolRemoved
+					end
+				end)
+			)
+
 			table.insert(
 				connections,
 				newPlayerCharacter.ChildRemoved:Connect(function(childRemoved)
@@ -317,6 +293,24 @@ function toolUtil.observePlayerForToolOwnership(
 		end
 
 		if observerForToolOwnershipGranted then
+			for _, tool in player.Backpack:GetChildren() do
+				task.spawn(observerForToolOwnershipGranted, tool, lastToolOwnershipGranted)
+				lastToolOwnershipGranted = tool
+			end
+
+			local currentEquippedTool = newPlayerCharacter:FindFirstChildWhichIsA("Tool")
+			if currentEquippedTool then
+				task.spawn(observerForToolOwnershipGranted, currentEquippedTool, nil)
+			end
+
+			table.insert(
+				connections,
+				player.Backpack.ChildAdded:Connect(function(toolAdded)
+					task.spawn(observerForToolOwnershipGranted, toolAdded, lastToolOwnershipGranted)
+					lastToolOwnershipGranted = toolAdded
+				end)
+			)
+
 			local lastToolOwnershipGranted
 			table.insert(
 				connections,

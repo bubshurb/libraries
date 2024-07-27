@@ -2,7 +2,7 @@
 name = "bubshurb/toolutil"
 description = "A simple utility module for working with tools.."
 authors = ["bubshurb"]
-version = "1.2.2"
+version = "1.2.3"
 license = "MIT"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
