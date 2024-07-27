@@ -258,9 +258,21 @@ function toolUtil.observePlayerForToolOwnership(
 	local connections = {}
 	local lastToolOwnershipGranted
 	local lastToolOwnershipRemoved
+	local lastBackpackTools = {}
 
 	playerEventsUtil.usePlayerCharacterAdded(player, function(newPlayerCharacter)
 		if observerForToolOwnershipRemoved then
+			for _, lastBackpackTool in lastBackpackTools do
+				task.spawn(
+					observerForToolOwnershipRemoved,
+					lastBackpackTool,
+					lastToolOwnershipRemoved
+				)
+				lastToolOwnershipRemoved = lastBackpackTool
+			end
+
+			table.clear(lastBackpackTools)
+
 			table.insert(
 				connections,
 				player.Backpack.ChildRemoved:Connect(function(toolRemoved)
@@ -290,6 +302,15 @@ function toolUtil.observePlayerForToolOwnership(
 					lastToolOwnershipRemoved = childRemoved
 				end)
 			)
+
+			table.insert(
+				connections,
+				player.Backpack.ChildAdded:Connect(function(toolAdded)
+					lastBackpackTools = player.Backpack:GetChildren()
+				end)
+			)
+
+			lastBackpackTools = player.Backpack:GetChildren()
 		end
 
 		if observerForToolOwnershipGranted then
