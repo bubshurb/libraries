@@ -41,6 +41,10 @@ Property.__index = {}
 type Signal = typeof(Signal.new())
 type Trove = typeof(Trove.new())
 
+local function propertyBinderMapper(newValue)
+	return newValue
+end
+
 --[=[
 	@return Property
 
@@ -69,6 +73,40 @@ end
 
 function Property.is(self: any): boolean
 	return getmetatable(self) == Property
+end
+
+--[=[
+	Creates a new property and binds it to the current property, and returns the new
+	property. The new property will operate on the value of the current property, however
+	you may specify a `mapper` function for more control. The `mapper` function will be 
+	passed the new value and the old value of the current property (and when the current
+	property is updated), the return value of the mapper will be the new value of the new
+	property.
+	
+	The new property will be automatically destroyed once the current prpoerty is destroyed.
+
+	```lua
+	local property = Property.new(5)
+	local anotherProperty = property:clone(function(number)
+		return number + 5
+	end)
+
+	print(anotherProperty:get()) --> 10
+	property:set(10)
+	print(anotherProperty:get()) --> 15
+	```
+]=]
+
+function Property.__index:clone(mapper: (newValue: any, oldValue: any) -> any)
+	mapper = mapper or propertyBinderMapper
+
+	local newProperty = self._trove:Add(Property.new())
+	newProperty:bulkSet(mapper(self:get(), nil))
+	self._trove:Add(self.onUpdate:Connect(function(...)
+		newProperty:set(mapper(...))
+	end))
+
+	return newProperty
 end
 
 --[=[
