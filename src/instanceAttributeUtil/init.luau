@@ -147,6 +147,8 @@ end
 	the new attribute value of the instance, and the old attribute value of the instance. The promise
 	will only resolve when `predicate` returns `true` for the new attribute value of the instance.
 
+	The returned promise will be cancelled if `instance` is destroyed.
+
 	```lua
 	instanceAttributeUtil.instanceAttributePromise(instance, "SomeAttribute", function(newValue, oldValue)
 		return newValue == 2 and oldValue == 1
@@ -167,7 +169,7 @@ function instanceAttributeUtil.instanceAttributePromise(
 		oldValue: any
 	) -> boolean)?
 )
-	return Promise.new(function(resolve)
+	local promise = Promise.new(function(resolve)
 		if predicate == nil then
 			if instance:GetAttribute(attribute) ~= nil then
 				resolve(instance:GetAttribute(attribute))
@@ -185,6 +187,16 @@ function instanceAttributeUtil.instanceAttributePromise(
 			resolve(instance:GetAttribute(attribute))
 		end
 	end)
+
+	local instanceDestroyingConnection = instance.Destroying:Once(function()
+		promise:cancel()
+	end)
+
+	promise:andThen(function()
+		instanceDestroyingConnection:Disconnect()
+	end)
+
+	return promise
 end
 
 return table.freeze(instanceAttributeUtil)

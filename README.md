@@ -35,8 +35,8 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [colorUtil](https://bubshurb.github.io/libraries/api/colorUtil) | `colorUtil = "bubshurb/colorutil@1.0.0"` | `shared` |
 | [serializerUtil](https://bubshurb.github.io/libraries/api/serializerUtil) | `serializerUtil = "bubshurb/serializerutil@1.0.0"` | `shared` |
 | [instanceTrackerUtil](https://bubshurb.github.io/libraries/api/instanceTrackerUtil) | `instanceTrackerUtil = "bubshurb/instancetrackerutil@1.1.0"` | `shared` |
-| [instanceAttributeUtil](https://bubshurb.github.io/libraries/api/instanceAttributeUtil) | `instanceAttributeUtil = "bubshurb/instanceattributeutil@1.1.1"` | `shared` |
-| [instanceTagUtil](https://bubshurb.github.io/libraries/api/instanceTagUtil) | `instanceTagUtil = "bubshurb/instancetagutil@1.0.0"` | `shared` |
+| [instanceAttributeUtil](https://bubshurb.github.io/libraries/api/instanceAttributeUtil) | `instanceAttributeUtil = "bubshurb/instanceattributeutil@1.1.2"` | `shared` |
+| [instanceTagUtil](https://bubshurb.github.io/libraries/api/instanceTagUtil) | `instanceTagUtil = "bubshurb/instancetagutil@1.0.1"` | `shared` |
 | [rbxScriptSignalUtil](https://bubshurb.github.io/libraries/api/rbxScriptSignalUtil) | `rbxScriptSignalUtil = "bubshurb/rbxscriptsignalutil@1.0.0"` | `shared` |
 | [numberUnitUtil](https://bubshurb.github.io/libraries/api/numberUnitUtil) | `numberUnitUtil = "bubshurb/numberunitutil@1.0.0"` | `shared` |
 | [playersUtil](https://bubshurb.github.io/libraries/api/playersUtil) | `playersUtil = "bubshurb/playersutil@1.1.0"` | `shared` |

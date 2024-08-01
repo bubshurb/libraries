@@ -44,13 +44,12 @@ function instanceTagUtil.observe(
 		for _, connection in connections do
 			connection:Disconnect()
 		end
-
-		connections = nil
 	end
 end
 
 --[=[
 	Returns a promise which is resolved when the given instance has the passed tag.
+	The returned promise will be cancelled if `instance` is destroyed.
 
 	```lua
 	instanceTagUtil.instanceTagPromise(instance, "SomeTag", function()
@@ -60,7 +59,7 @@ end
 ]=]
 
 function instanceTagUtil.instanceTagPromise(instance: Instance, tag: string)
-	return Promise.new(function(resolve)
+	local promise = Promise.new(function(resolve)
 		if instance:HasTag(tag) then
 			resolve()
 			return
@@ -69,6 +68,16 @@ function instanceTagUtil.instanceTagPromise(instance: Instance, tag: string)
 		CollectionService:GetInstanceAddedSignal(instance):Wait()
 		resolve()
 	end)
+
+	local instanceDestroyingConnection = instance.Destroying:Once(function()
+		promise:cancel()
+	end)
+
+	promise:andThen(function()
+		instanceDestroyingConnection:Disconnect()
+	end)
+
+	return promise
 end
 
 return table.freeze(instanceTagUtil)
