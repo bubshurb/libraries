@@ -73,7 +73,7 @@ function instanceTagUtil.instanceTagPromise(instance: Instance, tag: string)
 		promise:cancel()
 	end)
 
-	promise:andThen(function()
+	promise:finally(function()
 		instanceDestroyingConnection:Disconnect()
 	end)
 

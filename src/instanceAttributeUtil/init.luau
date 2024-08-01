@@ -192,7 +192,7 @@ function instanceAttributeUtil.instanceAttributePromise(
 		promise:cancel()
 	end)
 
-	promise:andThen(function()
+	promise:finally(function()
 		instanceDestroyingConnection:Disconnect()
 	end)
 
