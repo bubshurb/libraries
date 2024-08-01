@@ -124,7 +124,9 @@ function instanceAttributeUtil.observe(
 ): (RBXScriptConnection, any)
 	local oldAttributeValue = instance:GetAttribute(desiredAttribute)
 	local promise = Promise.new(function(resolve)
-		observer(oldAttributeValue)
+		if oldAttributeValue ~= nil then
+			observer(oldAttributeValue, nil)
+		end
 		resolve()
 	end)
 
