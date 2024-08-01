@@ -29,7 +29,7 @@ end
 
 --[=[
 	Works similar to [instanceAttributeUtil.observe], but observes an dictionary of 
-	attributes instead of a single attribute.
+	attributes instead of a single attribute. Returns a [RBXScriptConnection](https://create.roblox.com/docs/reference/engine/datatypes/RBXScriptConnection) object.
 
 	```lua
 	instanceAttributeUtil.observeMany(workspace, workspace:GetAttributes(), function(newAttributes, oldAttributes)
@@ -42,7 +42,7 @@ function instanceAttributeUtil.observeMany(
 	instance: Instance,
 	attributesToObserve: { [string]: any },
 	observer: Observer
-)
+): RBXScriptConnection
 	local attributesToObserveNew = table.clone(attributesToObserve)
 	local attributesToObserveOld = table.clone(attributesToObserve)
 	task.spawn(observer, attributesToObserveNew, nil)
@@ -61,7 +61,7 @@ end
 
 --[=[
 	Sets up an event connection which listens to any descendant added to `instanceTree`, if it has the
-	`desiredAttribute` atribute, then `callback` will be called.
+	`desiredAttribute` atribute, then `callback` will be called. Returns a [RBXScriptConnection](https://create.roblox.com/docs/reference/engine/datatypes/RBXScriptConnection) object.
 
 	```lua
 	instanceAttributeUtil.new(workspace, "Test", function(instance)
@@ -74,7 +74,7 @@ function instanceAttributeUtil.new(
 	instanceTree: Instance,
 	desiredAttribute: string,
 	callback: (descendant: Instance) -> ()
-)
+): RBXScriptConnection
 	return instanceTree.DescendantAdded:Connect(function(descendant)
 		if descendant:GetAttribute(desiredAttribute) ~= nil then
 			callback(descendant)
@@ -84,7 +84,7 @@ end
 
 --[=[
 	Sets up an event connection which listens to any descendant removed from `instanceTree`, if it has the
-	`desiredAttribute` atribute, then `callback` will be called.
+	`desiredAttribute` atribute, then `callback` will be called. Returns a [RBXScriptConnection](https://create.roblox.com/docs/reference/engine/datatypes/RBXScriptConnection) object.
 
 	```lua
 	instanceAttributeUtil.removed(workspace, "Test", function(instance)
@@ -97,7 +97,7 @@ function instanceAttributeUtil.removed(
 	instanceTree: Instance,
 	desiredAttribute: string,
 	callback: (descendant: Instance) -> ()
-)
+): RBXScriptConnection
 	return instanceTree.DescendantRemoving:Connect(function(descendant)
 		if descendant:GetAttribute(desiredAttribute) ~= nil then
 			callback(descendant)
@@ -107,7 +107,8 @@ end
 
 --[=[
 	Observes the value of attribute `desiredAttribute` in `instance`, so `observer` is called
-	every time the attribute updates.
+	every time the attribute updates. Returns a [RBXScriptConnection](https://create.roblox.com/docs/reference/engine/datatypes/RBXScriptConnection) object, 
+	as well a promise that is resolved when `observer` is called for the first time and has finished running.
 
 	```lua
 	instanceAttributeUtil.observe(workspace, "SomeAttribute", function(newValue, oldValue)
@@ -120,16 +121,19 @@ function instanceAttributeUtil.observe(
 	instance: Instance,
 	desiredAttribute: string,
 	observer: Observer
-)
+): (RBXScriptConnection, any)
 	local oldAttributeValue = instance:GetAttribute(desiredAttribute)
-	if oldAttributeValue ~= nil then
-		task.spawn(observer, oldAttributeValue)
-	end
+	local promise = Promise.new(function(resolve)
+		observer(oldAttributeValue)
+		resolve()
+	end)
 
-	return instance:GetAttributeChangedSignal(desiredAttribute):Connect(function()
-		observer(instance:GetAttribute(desiredAttribute), oldAttributeValue)
+	local connection = instance:GetAttributeChangedSignal(desiredAttribute):Connect(function()
+		task.spawn(observer, instance:GetAttribute(desiredAttribute), oldAttributeValue)
 		oldAttributeValue = instance:GetAttribute(desiredAttribute)
 	end)
+
+	return connection, promise
 end
 
 --[=[
