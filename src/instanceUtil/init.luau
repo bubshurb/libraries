@@ -130,6 +130,21 @@ function instanceUtil.setInstanceAttributes(instance: Instance, attributes: { [s
 end
 
 --[=[
+	Adds all tags to `instance.
+
+	```lua
+	instanceUtil.addTagsToInstance(workspace.Baseplate, {"IsMayoSauce"})
+	print(workspace.Baseplate:HasTag("IsMayoSauce")) --> true
+	```
+]=]
+
+function instanceUtil.addTagsToInstance(instance: Instance, tags: { string })
+	for _, tag in tags do
+		instance:AddTag(tag)
+	end
+end
+
+--[=[
 	Adds all tags in `tags` to the given instance as [CollectionService](https://create.roblox.com/docs/reference/engine/classes/CollectionService) tags.
 
 	```lua

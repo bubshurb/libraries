@@ -12,7 +12,7 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [network](https://bubshurb.github.io/libraries/api/network) | `network = "bubshurb/network@1.6.0"` | `shared` |
 | [windLines](https://bubshurb.github.io/libraries/api/windLines) | `windLines = "bubshurb/windlines@1.0.0"` | `shared` |
 | [matrixUtil](https://bubshurb.github.io/libraries/api/matrixUtil) | `matrixUtil = "bubshurb/matrixutil@1.0.0"` | `shared` |
-| [instanceUtil](https://bubshurb.github.io/libraries/api/InstanceUtil) | `instanceUtil = "bubshurb/instanceutil@1.0.0"` | `shared` |
+| [instanceUtil](https://bubshurb.github.io/libraries/api/InstanceUtil) | `instanceUtil = "bubshurb/instanceutil@1.1.0"` | `shared` |
 | [numberUtil](https://bubshurb.github.io/libraries/api/numberUtil) | `numberUtil = "bubshurb/numberutil@1.0.0"` | `shared` |
 | [colorSequenceUtil](https://bubshurb.github.io/libraries/api/colorSequenceUtil) | `colorSequenceUtil = "bubshurb/colorsequenceutil@1.0.0"` | `shared` |
 | [throttleUtil](https://bubshurb.github.io/libraries/api/throttleUtil) | `throttleUtil = "bubshurb/throttleutil@1.0.0"` | `shared` |
