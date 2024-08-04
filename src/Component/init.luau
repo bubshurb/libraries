@@ -54,12 +54,12 @@ type ExtensionShouldFn = (any) -> boolean
 
 	```lua
 	local Logger = {}
-	function Logger.constructing(component) print("constructing", component) end
-	function Logger.constructed(component) print("constructed", component) end
-	function Logger.starting(component) print("starting", component) end
-	function Logger.started(component) print("started", component) end
-	function Logger.stopping(component) print("stopping", component) end
-	function Logger.stopped(component) print("stopped", component) end
+	function Logger.constructing(component, componentClass) print("constructing", component) end
+	function Logger.constructed(component, componentClass) print("constructed", component) end
+	function Logger.starting(component, componentClass) print("starting", component) end
+	function Logger.started(component, componentClass) print("started", component) end
+	function Logger.stopping(component, componentClass) print("stopping", component) end
+	function Logger.stopped(component, componentClass) print("stopped", component) end
 
 	local MyComponent = Component.new({tag = "MyComponent", extensions = {Logger}})
 	```
@@ -204,11 +204,11 @@ local function NextRenderName(): string
 	return "ComponentRender" .. HttpService:GenerateGUID()
 end
 
-local function InvokeExtensionFn(component, fnName: string)
+local function InvokeExtensionFn(component, componentClass, fnName: string)
 	for _, extension in component[KEY_ACTIVE_EXTENSIONS] do
 		local fn = extension[fnName]
 		if type(fn) == "function" then
-			fn(component)
+			fn(component, componentClass)
 		end
 	end
 end
@@ -361,7 +361,7 @@ function Component:_instantiate(instance: Instance)
 		constructedSignal:Fire()
 		return nil
 	end
-	InvokeExtensionFn(component, "constructing")
+	InvokeExtensionFn(component, self, "constructing")
 	if type(component.construct) == "function" then
 		self[CONSTRUCT_PROMISE] = Promise.new(function(resolve)
 			resolve(component:construct())
@@ -370,7 +370,7 @@ function Component:_instantiate(instance: Instance)
 		self[CONSTRUCT_PROMISE]:expect()
 	end
 
-	InvokeExtensionFn(component, "constructed")
+	InvokeExtensionFn(component, self, "constructed")
 	constructedSignal:Fire()
 	return component
 end
@@ -379,13 +379,13 @@ function Component:_setup()
 	local watchingInstances = {}
 
 	local function StartComponent(component)
-		InvokeExtensionFn(component, "starting")
+		InvokeExtensionFn(component, self, "starting")
 
 		component[START_PROMISE] = Promise.new(function(resolve)
 			resolve(component:start())
 		end)
 			:andThen(function()
-				InvokeExtensionFn(component, "started")
+				InvokeExtensionFn(component, self, "started")
 				local hasHeartbeatUpdate = typeof(component.heartbeatUpdate) == "function"
 				local hasSteppedUpdate = typeof(component.steppedUpdate) == "function"
 				local hasRenderSteppedUpdate = typeof(component.renderSteppedUpdate) == "function"
@@ -478,9 +478,9 @@ function Component:_setup()
 		component[START_PROMISE]:cancel()
 		component[CONSTRUCT_PROMISE]:cancel()
 
-		InvokeExtensionFn(component, "stopping")
+		InvokeExtensionFn(component, self, "stopping")
 		component:stop()
-		InvokeExtensionFn(component, "stopped")
+		InvokeExtensionFn(component, self, "stopped")
 		self.stopped:Fire(component)
 	end
 
