@@ -52,8 +52,8 @@
 	:::
 ]=]
 
-local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
 
 local Signal = require(script.Parent.Signal)
 local Trove = require(script.Parent.Trove)
@@ -109,7 +109,7 @@ end
 	Plays a cloned version of the sound and destroys it when it has ended.
 ]=]
 
-function soundUtil.playSoundCloneAndCleanup(sound: Sound)
+function soundUtil.playSoundCloneAndCleanup(sound: Sound): Sound
 	local clonedSound = sound:Clone()
 	clonedSound.Name = string.format("%s_Clone", sound.Name)
 	clonedSound.Parent = sound.Parent
@@ -118,6 +118,7 @@ function soundUtil.playSoundCloneAndCleanup(sound: Sound)
 	clonedSound.Ended:Connect(function()
 		clonedSound:Destroy()
 	end)
+	return clonedSound
 end
 
 --[=[
@@ -148,7 +149,7 @@ end
 	```
 ]=]
 
-function soundUtil.playSound(soundInstance: Sound)
+function soundUtil.playSound(soundInstance: Sound): Sound
 	local soundInstanceIsRegistered = table.find(registeredSoundInstances, soundInstance) ~= nil
 
 	soundInstancesMarkedAsPlaying[soundInstance] = true
@@ -186,6 +187,8 @@ function soundUtil.playSound(soundInstance: Sound)
 			)
 		end)
 	end
+
+	return soundInstance
 end
 
 --[=[
@@ -215,7 +218,7 @@ end
 	:::
 ]=]
 
-function soundUtil.playSound3D(soundInstance: Sound, positionOrBasePart: Vector3 | BasePart)
+function soundUtil.playSound3D(soundInstance: Sound, positionOrBasePart: Vector3 | BasePart): Sound
 	if not mapped3DSoundInstanceHolders[soundInstance] then
 		if typeof(positionOrBasePart) == "Vector3" then
 			local soundHolderPart = Instance.new("Part")
@@ -235,6 +238,7 @@ function soundUtil.playSound3D(soundInstance: Sound, positionOrBasePart: Vector3
 	end
 
 	soundUtil.playSound(soundInstance)
+	return soundInstance
 end
 
 --[=[
