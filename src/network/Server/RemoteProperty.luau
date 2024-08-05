@@ -794,7 +794,11 @@ end
 	```
 ]=]
 
-function RemoteProperty.__index:observeClientValues(observer: (player: Player, newValue: any, oldValue: any))
+function RemoteProperty.__index:observeClientValues(observer: (
+	player: Player,
+	newValue: any,
+	oldValue: any
+) -> ())
 	table.insert(self._clientValueObservers, observer)
 
 	return function()
