@@ -794,11 +794,11 @@ end
 	```
 ]=]
 
-function RemoteProperty.__index:observeClientValues(callback: RemotePropertyOnUpdateCallback)
-	table.insert(self._clientValueObservers, callback)
+function RemoteProperty.__index:observeClientValues(observer: (player: Player, newValue: any, oldValue: any))
+	table.insert(self._clientValueObservers, observer)
 
 	return function()
-		table.remove(self._clientValueObservers, table.find(self._clientValueObservers, callback))
+		table.remove(self._clientValueObservers, table.find(self._clientValueObservers, observer))
 	end
 end
 
