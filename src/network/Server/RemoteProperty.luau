@@ -395,6 +395,7 @@ function RemoteProperty.new<T>(
 		_clientProperties = {},
 		_clientSettingValueRateLimits = {},
 		_clientSettingValueRateLimitClocks = {},
+		_clientValueObservers = {},
 		_trove = Trove.new(),
 		_config = config,
 	}, RemoteProperty)
@@ -781,6 +782,28 @@ end
 
 --[=[
 	@tag RemoteProperty instance
+	@return () -> ()
+	
+	Observes the values set for clients in the remote property.
+	
+	```lua
+	local remoteProperty = RemoteProperty.new()
+	remoteProperty:observeClientValues(function(client: Player, newValue: any, oldValue: any)
+	
+	end)
+	```
+]=]
+
+function RemoteProperty.__index:observeClientValues(callback: RemotePropertyOnUpdateCallback)
+	table.insert(self._clientValueObservers, callback)
+
+	return function()
+		table.remove(self._clientValueObservers, table.find(self._clientValueObservers, callback))
+	end
+end
+
+--[=[
+	@tag RemoteProperty instance
 		
 	Destroys the remote property and renders it unusable. All clients who have a specific value
 	set for themselves in the remote property will be removed through [RemoteProperty:removeForClient].
@@ -931,12 +954,17 @@ end
 ]=]
 
 function RemoteProperty.__index:_clientProperty(client: Player)
-	if self._clientProperties[client] then
+	if self._clientProperties[client] ~= nil then
 		return self._clientProperties[client]
 	end
 
 	local property = Property.new()
-	property.onUpdate:Connect(function(newValue)
+
+	property.onUpdate:Connect(function(newValue, oldValue)
+		for _, clientValueObserver in self._clientValueObservers do
+			task.spawn(clientValueObserver, client, newValue, oldValue)
+		end
+
 		self.clientValueOnUpdate:Fire(client, newValue)
 		networkUtil.safeInvokeClient(
 			self._valueDispatcherRemoteFunction,
