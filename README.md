@@ -32,7 +32,7 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 | [toolUtil](https://bubshurb.github.io/libraries/api/toolUtil) | `toolUtil = "bubshurb/tooltil@1.2.4` | `shared` |
 | [soundUtil](https://bubshurb.github.io/libraries/api/soundUtil) | `soundUtil = "bubshurb/soundutil@1.1.0"` | `shared` |
 | [badgeServiceUtil](https://bubshurb.github.io/libraries/api/badgeServiceUtil) | `badgeServiceUtil = "bubshurb/badgeserviceutil@1.0.0"` | `shared` |
-| [colorUtil](https://bubshurb.github.io/libraries/api/colorUtil) | `colorUtil = "bubshurb/colorutil@1.1.0"` | `shared` |
+| [colorUtil](https://bubshurb.github.io/libraries/api/colorUtil) | `colorUtil = "bubshurb/colorutil@1.1.1"` | `shared` |
 | [serializerUtil](https://bubshurb.github.io/libraries/api/serializerUtil) | `serializerUtil = "bubshurb/serializerutil@1.0.0"` | `shared` |
 | [instanceTrackerUtil](https://bubshurb.github.io/libraries/api/instanceTrackerUtil) | `instanceTrackerUtil = "bubshurb/instancetrackerutil@1.1.1"` | `shared` |
 | [instanceAttributeUtil](https://bubshurb.github.io/libraries/api/instanceAttributeUtil) | `instanceAttributeUtil = "bubshurb/instanceattributeutil@1.1.5"` | `shared` |

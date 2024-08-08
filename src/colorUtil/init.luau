@@ -35,7 +35,8 @@ function colorUtil.clampColor(
 ): Color3 | ColorSequence
 	if typeof(colorOrColorSequence) == "ColorSequence" then
 		local colorSequenceClampedColor = colorUtil.clampColor(
-			colorSequenceUtil.colorFromKeyPointsPercentage(1, colorOrColorSequence.Keypoints)
+			colorSequenceUtil.colorFromKeyPointsPercentage(1, colorOrColorSequence.Keypoints),
+			clampComponents
 		)
 		return ColorSequence.new(colorSequenceClampedColor)
 	end
