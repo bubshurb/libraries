@@ -379,6 +379,10 @@ function Component:_setup()
 	local watchingInstances = {}
 
 	local function StartComponent(component)
+		debug.setmemorycategory(
+			string.format(COMPONENT_MEM_TAG, tostring(component), component.instance.Name)
+		)
+
 		InvokeExtensionFn(component, self, "starting")
 
 		component[START_PROMISE] = Promise.new(function(resolve)
@@ -509,10 +513,6 @@ function Component:_setup()
 			if not component then
 				return
 			end
-
-			debug.setmemorycategory(
-				string.format(COMPONENT_MEM_TAG, tostring(component), instance.Name)
-			)
 
 			self[KEY_INST_TO_COMPONENTS][instance] = component
 			table.insert(self[KEY_COMPONENTS], component)

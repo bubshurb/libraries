@@ -4,7 +4,7 @@ libraries is a collection of my open Roblox sourced modules. All of them can be 
 
 | Module | Dependency | Realm |
 | -- | -- | -- |
-| [Component](https://bubshurb.github.io/libraries/api/Component) | `Component = "bubshurb/component@1.1.0` | `shared` |
+| [Component](https://bubshurb.github.io/libraries/api/Component) | `Component = "bubshurb/component@1.1.1` | `shared` |
 | [Hover](https://bubshurb.github.io/libraries/api/Hover) | `Hover = "bubshurb/hover@1.1.0` | `shared` |
 | [ContentProviderQueue](https://bubshurb.github.io/libraries/api/ContentProviderQueue) | `ContentProviderQueue = "bubshurb/contentproviderqueue@1.1.0"` | `shared` |
 | [CustomAnimator](https://bubshurb.github.io/libraries/api/CustomAnimator) | `CustomAnimator = "bubshurb/customanimator@1.2.0"` | `shared` |
