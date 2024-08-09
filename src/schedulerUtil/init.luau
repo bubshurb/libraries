@@ -113,6 +113,7 @@ for _, runServiceEvent in schedulerUtil.RunServiceEvent do
 		end
 
 		for identifier, callback in callbacks[runServiceEvent] do
+			debug.setmemorycategory(identifier)
 			debug.profilebegin(identifier)
 
 			local clockBefore = os.clock()
