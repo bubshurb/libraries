@@ -88,7 +88,7 @@ function schedulerUtil.unschedule(runServiceEventName: string, callbackIdentifie
 		string.format("Invalid run service event name [%s] passed!", runServiceEventName)
 	)
 
-	if callbacks[runServiceEventName] then
+	if callbacks[runServiceEventName] ~= nil then
 		callbacks[runServiceEventName][callbackIdentifier] = nil
 	end
 
@@ -115,19 +115,10 @@ for _, runServiceEvent in schedulerUtil.RunServiceEvent do
 		for identifier, callback in callbacks[runServiceEvent] do
 			debug.setmemorycategory(identifier)
 			debug.profilebegin(identifier)
-
 			local clockBefore = os.clock()
-			local thread = task.spawn(callback, ...)
-
-			if coroutine.status(thread) ~= "dead" then
-				debugLoggerUtil.log(
-					error,
-					string.format(
-						"Callback [%s] yielded - scheduler callbacks must never yield!",
-						identifier
-					)
-				)
-			end
+			callback(...)
+			debug.profileend()
+			debug.resetmemorycategory()
 
 			local timeTakenForCallback = os.clock() - clockBefore
 			if timeTakenForCallback > MAX_EXPECTED_CALLBACK_EXECUTION_TIME then
@@ -147,8 +138,6 @@ for _, runServiceEvent in schedulerUtil.RunServiceEvent do
 					performanceWarnLogs[identifier] = os.clock()
 				end
 			end
-
-			debug.profileend()
 		end
 	end)
 end
